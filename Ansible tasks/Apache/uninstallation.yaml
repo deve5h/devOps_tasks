@@ -1,9 +1,0 @@
----
-- name: uninstall Apache webserver
-  hosts: localhost
-  become: true
-  tasks:
-       - name: uninstall apache
-         apt:  
-          name: apache2 
-          state: absent
