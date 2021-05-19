@@ -1,5 +1,0 @@
-- hosts: localhost
-  become: yes
-  tasks: 
-    - name: Uninstalling Redis
-      apt: name=redis-server state=absent

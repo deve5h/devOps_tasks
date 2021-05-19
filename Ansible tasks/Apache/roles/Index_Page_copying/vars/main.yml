@@ -1,6 +1,0 @@
----
-app_user: "user1"
-http_host: "deve5h"
-http_conf: "deve5h.conf"
-http_port: "80"
-disable_default: true
