@@ -1,0 +1,8 @@
+    - name: Install MySQL dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - mysql-common
+        - mysql-server
+        - mysql-client

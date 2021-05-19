@@ -1,0 +1,4 @@
+    - name: Copy initial MySQL client config file, no password, for root
+      copy:
+        src: .my.cnf
+        dest: /root/.my.cnf

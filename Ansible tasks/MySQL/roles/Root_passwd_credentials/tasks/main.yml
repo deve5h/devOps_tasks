@@ -1,0 +1,7 @@
+    - name: Create `/root/.my.cnf` with root password credentials
+      become: yes
+      template:
+        src:  my.cnf.j2
+        dest: /root/.my.cnf
+        owner: root
+        mode: 0600
