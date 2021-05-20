@@ -1,0 +1,87 @@
+-
+  name: database creation
+  hosts: localhost
+  vars:
+    mysql_root_password: secretpw
+    mysql_user_password: secret
+  tasks:
+  
+    - name: prerequisite dependencies installation
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - python
+        - python-setuptools
+        - python-dev
+        - build-essential
+        - python-pip
+        - python-pymysql
+
+    - name: MySQL repository key addition
+      apt_key:
+        keyserver: pgp.mit.edu
+        id: 5072E1F5
+        state: present
+
+    - name: official MySQL 5.7 ubuntu repository addition
+      apt_repository:
+        repo: "deb http://repo.mysql.com/apt/ubuntu bionic mysql-5.7"
+        state: present
+
+    - name: MySQL dependencies installation
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - mysql-common
+        - mysql-server
+        - mysql-client
+
+    - name: MySQL Service launch
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: MySQL client config_file copying, no password for root
+      copy:
+        src: .my.cnf
+        dest: /root/.my.cnf
+
+    - name: mysql root password updation
+      become: true
+      mysql_user:
+        name: root
+        host: "{{ item }}"
+        password: "{{ mysql_root_password }}"
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+        check_implicit_admin: yes
+        priv: "*.*:ALL,GRANT"
+      with_items:
+        - 127.0.0.1
+        - ::1
+        - localhost
+
+    - name: `/root/.my.cnf` creation
+      become: yes
+      template:
+        src:  my.cnf.j2
+        dest: /root/.my.cnf
+        owner: root
+        mode: 0600
+
+    - name: MySQL database creation
+      become: true
+      mysql_db:
+        name: "employee_db"
+        state: present
+
+    - name: database user creation
+      become: true
+      mysql_user:
+        name: db_user
+        password: "{{ mysql_user_password }}"
+        priv: '*.*:ALL'
+        state: present
