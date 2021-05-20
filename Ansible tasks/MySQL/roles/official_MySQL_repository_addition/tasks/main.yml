@@ -1,4 +1,0 @@
-    - name: Add official MySQL 5.7 ubuntu bionic repository
-      apt_repository:
-        repo: "deb http://repo.mysql.com/apt/ubuntu bionic mysql-5.7"
-        state: present

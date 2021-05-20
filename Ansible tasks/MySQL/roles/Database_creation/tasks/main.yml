@@ -1,5 +1,0 @@
-    - name: Create the MySQL database
-      become: true
-      mysql_db:
-        name: "employee_db"
-        state: present

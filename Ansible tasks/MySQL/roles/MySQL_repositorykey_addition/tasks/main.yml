@@ -1,5 +1,0 @@
-    - name: Add MySQL repository key
-      apt_key:
-        keyserver: pgp.mit.edu
-        id: 5072E1F5
-        state: present
